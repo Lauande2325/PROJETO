@@ -1,0 +1,7 @@
+#form-peca input[type="number"] {
+    text-align: right;
+}
+
+.status-badge.status-inativo {
+    font-size: 11px;
+}
