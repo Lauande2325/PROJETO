@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ motorista.nome }}{% endblock %}
+{% block cabecalho %}Detalhe do Motorista{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Nome</div><div class="valor">{{ motorista.nome }}</div></div>
+<div class="detalhe-item"><div class="rotulo">CNH</div><div class="valor">{{ motorista.cnh }}</div></div>
+<div class="detalhe-item"><div class="rotulo">CPF</div><div class="valor">{{ motorista.cpf }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if motorista.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</div></div>
+</div>
+<div class="form-acoes">
+<a href="{% url 'motoristas:editar' motorista.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'motoristas:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if motorista.ativo %}
+<form method="post" action="{% url 'motoristas:desativar' motorista.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo">Desativar</button>
+</form>
+{% endif %}
+</div>
+</div>
+{% endblock %}

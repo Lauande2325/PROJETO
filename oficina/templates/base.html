@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block titulo %}Oficina{% endblock %} | Sistema Oficina</title>
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+{% block css_extra %}{% endblock %}
+</head>
+<body>
+<header class="topo">
+<h1><a href="/">Sistema Oficina</a></h1>
+<nav class="menu-principal">
+<a href="{% url 'clientes:lista' %}">Clientes</a>
+<a href="{% url 'veiculos:lista' %}">Veículos</a>
+<a href="{% url 'pecas:lista' %}">Peças</a>
+<a href="{% url 'servicos:lista' %}">Serviços</a>
+<a href="{% url 'mecanicos:lista' %}">Mecânicos</a>
+<a href="{% url 'colaboradores:lista' %}">Colaboradores</a>
+<a href="{% url 'motoristas:lista' %}">Motoristas</a>
+<a href="{% url 'frota:lista' %}">Frota</a>
+<a href="{% url 'reservas:lista' %}">Reservas</a>
+</nav>
+</header>
+
+<main class="conteudo-principal">
+<h2 class="titulo-pagina">{% block cabecalho %}{% endblock %}</h2>
+
+{% if messages %}
+<ul class="mensagens">
+{% for message in messages %}
+<li class="mensagem mensagem-{{ message.tags }}">{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% block conteudo %}{% endblock %}
+</main>
+
+<script src="{% static 'js/global.js' %}"></script>
+{% block js_extra %}{% endblock %}
+</body>
+</html>

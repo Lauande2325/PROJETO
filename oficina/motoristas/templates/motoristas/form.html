@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block titulo %}{% if modo == 'novo' %}Novo Motorista{% else %}Editar Motorista{% endif %}{% endblock %}
+{% block cabecalho %}{% if modo == 'novo' %}Novo Motorista{% else %}Editar Motorista{% endif %}{% endblock %}
+{% block conteudo %}
+<form method="post" class="card" novalidate>
+{% csrf_token %}
+<div class="form-bloco">
+<h3>Dados</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.nome.id_for_label }}">Nome</label>{{ form.nome }}{% if form.nome.errors %}<span class="erro">{{ form.nome.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.cnh.id_for_label }}">CNH</label>{{ form.cnh }}{% if form.cnh.errors %}<span class="erro">{{ form.cnh.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.cpf.id_for_label }}">CPF</label>{{ form.cpf }}{% if form.cpf.errors %}<span class="erro">{{ form.cpf.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.usuario.id_for_label }}">Usuário (opcional)</label>{{ form.usuario }}</div>
+<div class="campo campo-checkbox">{{ form.ativo }}<label for="{{ form.ativo.id_for_label }}">Ativo</label></div>
+</div>
+</div>
+<div class="form-acoes">
+<button type="submit" class="btn btn-primario">Salvar</button>
+<a href="{% url 'motoristas:lista' %}" class="btn btn-secundario">Cancelar</a>
+</div>
+</form>
+{% endblock %}

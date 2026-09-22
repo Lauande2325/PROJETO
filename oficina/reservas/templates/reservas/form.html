@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block titulo %}{% if modo == 'novo' %}Nova Reserva{% else %}Editar Reserva{% endif %}{% endblock %}
+{% block cabecalho %}{% if modo == 'novo' %}Nova Reserva{% else %}Editar Reserva{% endif %}{% endblock %}
+{% block conteudo %}
+<form method="post" class="card" novalidate>
+{% csrf_token %}
+{% if form.non_field_errors %}
+<div class="form-bloco"><span class="erro">{{ form.non_field_errors.0 }}</span></div>
+{% endif %}
+<div class="form-bloco">
+<h3>Envolvidos</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.solicitante.id_for_label }}">Solicitante</label>{{ form.solicitante }}</div>
+<div class="campo"><label for="{{ form.motorista.id_for_label }}">Motorista</label>{{ form.motorista }}</div>
+<div class="campo"><label for="{{ form.veiculo.id_for_label }}">Veículo</label>{{ form.veiculo }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Detalhes</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.setor.id_for_label }}">Setor</label>{{ form.setor }}</div>
+<div class="campo"><label for="{{ form.atividade.id_for_label }}">Atividade</label>{{ form.atividade }}</div>
+<div class="campo"><label for="{{ form.origem.id_for_label }}">Origem</label>{{ form.origem }}</div>
+<div class="campo"><label for="{{ form.destino.id_for_label }}">Destino</label>{{ form.destino }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Data e horário</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.data.id_for_label }}">Data</label>{{ form.data }}</div>
+<div class="campo"><label for="{{ form.horario_saida.id_for_label }}">Horário de saída</label>{{ form.horario_saida }}</div>
+<div class="campo"><label for="{{ form.horario_retorno.id_for_label }}">Horário de retorno</label>{{ form.horario_retorno }}</div>
+<div class="campo"><label for="{{ form.quantidade_passageiros.id_for_label }}">Quantidade de passageiros</label>{{ form.quantidade_passageiros }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Outros</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
+<div class="campo"><label for="{{ form.observacoes.id_for_label }}">Observações</label>{{ form.observacoes }}</div>
+</div>
+</div>
+<div class="form-acoes">
+<button type="submit" class="btn btn-primario">Salvar</button>
+<a href="{% url 'reservas:lista' %}" class="btn btn-secundario">Cancelar</a>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block titulo %}Reserva {{ reserva.protocolo_unico }}{% endblock %}
+{% block cabecalho %}Detalhe da Reserva{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Protocolo</div><div class="valor">{{ reserva.protocolo_unico|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Solicitante</div><div class="valor">{{ reserva.solicitante }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Motorista</div><div class="valor">{{ reserva.motorista|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Veículo</div><div class="valor">{{ reserva.veiculo }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Setor</div><div class="valor">{{ reserva.setor }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Atividade</div><div class="valor">{{ reserva.atividade }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Origem / Destino</div><div class="valor">{{ reserva.origem }} → {{ reserva.destino }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Data</div><div class="valor">{{ reserva.data }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Saída / Retorno</div><div class="valor">{{ reserva.horario_saida }} - {{ reserva.horario_retorno }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Passageiros</div><div class="valor">{{ reserva.quantidade_passageiros }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if reserva.status == 'confirmada' %}<span class="status-badge status-ativo">Confirmada</span>{% else %}<span class="status-badge status-inativo">Cancelada</span>{% endif %}</div></div>
+</div>
+{% if reserva.observacoes %}
+<div class="form-bloco" style="margin-top: 20px;">
+<h3>Observações</h3>
+<p>{{ reserva.observacoes }}</p>
+</div>
+{% endif %}
+<div class="form-acoes">
+<a href="{% url 'reservas:editar' reserva.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'reservas:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if reserva.status == 'confirmada' %}
+<form method="post" action="{% url 'reservas:desativar' reserva.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo">Cancelar reserva</button>
+</form>
+{% endif %}
+</div>
+</div>
+{% endblock %}

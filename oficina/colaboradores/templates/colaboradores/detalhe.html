@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ colaborador.nome }}{% endblock %}
+{% block cabecalho %}Detalhe do Colaborador{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Nome</div><div class="valor">{{ colaborador.nome }}</div></div>
+<div class="detalhe-item"><div class="rotulo">E-mail</div><div class="valor">{{ colaborador.email }}</div></div>
+<div class="detalhe-item"><div class="rotulo">CPF</div><div class="valor">{{ colaborador.cpf }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Departamento</div><div class="valor">{{ colaborador.departamento }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if colaborador.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</div></div>
+</div>
+<div class="form-acoes">
+<a href="{% url 'colaboradores:editar' colaborador.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'colaboradores:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if colaborador.ativo %}
+<form method="post" action="{% url 'colaboradores:desativar' colaborador.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo">Desativar</button>
+</form>
+{% endif %}
+</div>
+</div>
+{% endblock %}

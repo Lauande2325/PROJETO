@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block titulo %}Reservas{% endblock %}
+{% block cabecalho %}Reservas de Veículos{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por atividade ou setor..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'reservas:cadastrar' %}" class="btn btn-primario">+ Nova Reserva</a>
+</div>
+<div class="card tabela-wrapper">
+{% if reservas %}
+<table class="tabela-dados">
+<thead><tr><th>Atividade</th><th>Veículo</th><th>Motorista</th><th>Data</th><th>Saída / Retorno</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for reserva in reservas %}
+<tr>
+<td>{{ reserva.atividade }}</td>
+<td>{{ reserva.veiculo }}</td>
+<td>{{ reserva.motorista|default:"-" }}</td>
+<td>{{ reserva.data }}</td>
+<td>{{ reserva.horario_saida }} - {{ reserva.horario_retorno }}</td>
+<td>{% if reserva.status == 'confirmada' %}<span class="status-badge status-ativo">Confirmada</span>{% else %}<span class="status-badge status-inativo">Cancelada</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'reservas:detalhe' reserva.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'reservas:editar' reserva.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if reservas.has_previous %}<a href="?page={{ reservas.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ reservas.number }} / {{ reservas.paginator.num_pages }}</span>
+{% if reservas.has_next %}<a href="?page={{ reservas.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhuma reserva encontrada.</p>
+{% endif %}
+</div>
+{% endblock %}

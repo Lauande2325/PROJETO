@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block titulo %}Motoristas{% endblock %}
+{% block cabecalho %}Motoristas{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por nome ou CNH..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'motoristas:cadastrar' %}" class="btn btn-primario">+ Novo Motorista</a>
+</div>
+<div class="card tabela-wrapper">
+{% if motoristas %}
+<table class="tabela-dados">
+<thead><tr><th>Nome</th><th>CNH</th><th>CPF</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for motorista in motoristas %}
+<tr>
+<td>{{ motorista.nome }}</td>
+<td>{{ motorista.cnh }}</td>
+<td>{{ motorista.cpf }}</td>
+<td>{% if motorista.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'motoristas:detalhe' motorista.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'motoristas:editar' motorista.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if motoristas.has_previous %}<a href="?page={{ motoristas.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ motoristas.number }} / {{ motoristas.paginator.num_pages }}</span>
+{% if motoristas.has_next %}<a href="?page={{ motoristas.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhum motorista encontrado.</p>
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block titulo %}Colaboradores{% endblock %}
+{% block cabecalho %}Colaboradores{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por nome ou departamento..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'colaboradores:cadastrar' %}" class="btn btn-primario">+ Novo Colaborador</a>
+</div>
+<div class="card tabela-wrapper">
+{% if colaboradores %}
+<table class="tabela-dados">
+<thead><tr><th>Nome</th><th>E-mail</th><th>CPF</th><th>Departamento</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for colaborador in colaboradores %}
+<tr>
+<td>{{ colaborador.nome }}</td>
+<td>{{ colaborador.email }}</td>
+<td>{{ colaborador.cpf }}</td>
+<td>{{ colaborador.departamento }}</td>
+<td>{% if colaborador.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'colaboradores:detalhe' colaborador.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'colaboradores:editar' colaborador.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if colaboradores.has_previous %}<a href="?page={{ colaboradores.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ colaboradores.number }} / {{ colaboradores.paginator.num_pages }}</span>
+{% if colaboradores.has_next %}<a href="?page={{ colaboradores.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhum colaborador encontrado.</p>
+{% endif %}
+</div>
+{% endblock %}
