@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}{% if modo == 'novo' %}Novo Colaborador{% else %}Editar Colaborador{% endif %}{% endblock %}
 {% block cabecalho %}{% if modo == 'novo' %}Novo Colaborador{% else %}Editar Colaborador{% endif %}{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'colaboradores/css/colaboradores.css' %}">
+{% endblock %}
 {% block conteudo %}
-<form method="post" class="card" novalidate>
+<form method="post" class="card" id="form-colaborador" novalidate>
 {% csrf_token %}
 <div class="form-bloco">
 <h3>Dados</h3>
@@ -17,6 +21,8 @@
 <div class="form-acoes">
 <button type="submit" class="btn btn-primario">Salvar</button>
 <a href="{% url 'colaboradores:lista' %}" class="btn btn-secundario">Cancelar</a>
+<button type="reset" class="btn btn-secundario">Limpar</button>
 </div>
 </form>
+<script src="{% static 'colaboradores/js/colaboradores.js' %}"></script>
 {% endblock %}

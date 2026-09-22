@@ -1,0 +1,7 @@
+#form-colaborador input[type="email"] {
+    text-transform: lowercase;
+}
+
+#form-colaborador #id_cpf {
+    letter-spacing: 0.02em;
+}

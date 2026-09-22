@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}{% if modo == 'novo' %}Nova Reserva{% else %}Editar Reserva{% endif %}{% endblock %}
 {% block cabecalho %}{% if modo == 'novo' %}Nova Reserva{% else %}Editar Reserva{% endif %}{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'reservas/css/reservas.css' %}">
+{% endblock %}
 {% block conteudo %}
-<form method="post" class="card" novalidate>
+<form method="post" class="card" id="form-reserva" novalidate>
 {% csrf_token %}
 {% if form.non_field_errors %}
 <div class="form-bloco"><span class="erro">{{ form.non_field_errors.0 }}</span></div>
@@ -45,4 +49,5 @@
 <a href="{% url 'reservas:lista' %}" class="btn btn-secundario">Cancelar</a>
 </div>
 </form>
+<script src="{% static 'reservas/js/reservas.js' %}"></script>
 {% endblock %}

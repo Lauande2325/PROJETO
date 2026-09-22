@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}{{ veiculo.placa }}{% endblock %}
 {% block cabecalho %}Detalhe do Veículo{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'frota/css/frota.css' %}">
+{% endblock %}
 {% block conteudo %}
 <div class="card">
 <div class="detalhe-grid">
@@ -16,9 +20,10 @@
 {% if veiculo.ativo %}
 <form method="post" action="{% url 'frota:desativar' veiculo.pk %}" class="form-desativar">
 {% csrf_token %}
-<button type="submit" class="btn btn-perigo">Desativar</button>
+<button type="submit" class="btn btn-perigo btn-desativar">Desativar</button>
 </form>
 {% endif %}
 </div>
 </div>
+<script src="{% static 'frota/js/frota.js' %}"></script>
 {% endblock %}

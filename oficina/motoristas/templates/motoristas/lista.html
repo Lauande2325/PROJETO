@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}Motoristas{% endblock %}
 {% block cabecalho %}Motoristas{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'motoristas/css/motoristas.css' %}">
+{% endblock %}
 {% block conteudo %}
 <div class="pagina-cabecalho">
 <form class="busca-form" method="get">

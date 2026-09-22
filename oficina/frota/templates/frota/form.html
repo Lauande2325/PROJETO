@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}{% if modo == 'novo' %}Novo Veículo{% else %}Editar Veículo{% endif %}{% endblock %}
 {% block cabecalho %}{% if modo == 'novo' %}Novo Veículo da Frota{% else %}Editar Veículo da Frota{% endif %}{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'frota/css/frota.css' %}">
+{% endblock %}
 {% block conteudo %}
-<form method="post" class="card" novalidate>
+<form method="post" class="card" id="form-frota" novalidate>
 {% csrf_token %}
 <div class="form-bloco">
 <h3>Dados</h3>
@@ -19,4 +23,5 @@
 <a href="{% url 'frota:lista' %}" class="btn btn-secundario">Cancelar</a>
 </div>
 </form>
+<script src="{% static 'frota/js/frota.js' %}"></script>
 {% endblock %}

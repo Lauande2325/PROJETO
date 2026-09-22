@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}{{ colaborador.nome }}{% endblock %}
 {% block cabecalho %}Detalhe do Colaborador{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'colaboradores/css/colaboradores.css' %}">
+{% endblock %}
 {% block conteudo %}
 <div class="card">
 <div class="detalhe-grid">
@@ -16,9 +20,10 @@
 {% if colaborador.ativo %}
 <form method="post" action="{% url 'colaboradores:desativar' colaborador.pk %}" class="form-desativar">
 {% csrf_token %}
-<button type="submit" class="btn btn-perigo">Desativar</button>
+<button type="submit" class="btn btn-perigo btn-desativar">Desativar</button>
 </form>
 {% endif %}
 </div>
 </div>
+<script src="{% static 'colaboradores/js/colaboradores.js' %}"></script>
 {% endblock %}

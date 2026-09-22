@@ -1,0 +1,8 @@
+#form-reserva input[type="time"],
+#form-reserva input[type="date"] {
+    font-family: inherit;
+}
+
+#form-reserva #id_quantidade_passageiros {
+    text-align: right;
+}

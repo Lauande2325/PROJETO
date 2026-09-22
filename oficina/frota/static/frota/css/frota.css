@@ -1,0 +1,7 @@
+#form-frota #id_placa {
+    text-transform: uppercase;
+}
+
+#form-frota input[type="number"] {
+    text-align: right;
+}
