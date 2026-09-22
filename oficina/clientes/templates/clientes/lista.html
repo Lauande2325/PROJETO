@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Clientes{% endblock %}
+{% block cabecalho %}Clientes{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por nome..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'clientes:cadastrar' %}" class="btn btn-primario">+ Novo Cliente</a>
+</div>
+<div class="card tabela-wrapper">
+{% if clientes %}
+<table class="tabela-dados">
+<thead><tr><th>Nome</th><th>Tipo</th><th>CPF/CNPJ</th><th>Telefone</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for cliente in clientes %}
+<tr>
+<td>{{ cliente.nome_completo }}</td>
+<td>{{ cliente.get_tipo_pessoa_display }}</td>
+<td>{{ cliente.cpf_cnpj|default:"-" }}</td>
+<td>{{ cliente.telefone|default:"-" }}</td>
+<td>{% if cliente.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'clientes:detalhe' cliente.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'clientes:editar' cliente.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if clientes.has_previous %}<a href="?page={{ clientes.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ clientes.number }} / {{ clientes.paginator.num_pages }}</span>
+{% if clientes.has_next %}<a href="?page={{ clientes.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhum cliente encontrado.</p>
+{% endif %}
+</div>
+<script src="{% static 'clientes/js/clientes.js' %}"></script>
+{% endblock %}

@@ -13,4 +13,8 @@ urlpatterns = [
     path('ordens-servico/', include('ordens_servico.urls')),
     path('financeiro/', include('financeiro.urls')),
     path('relatorios/', include('relatorios.urls')),
+    path('colaboradores/', include('colaboradores.urls')),
+    path('motoristas/', include('motoristas.urls')),
+    path('frota/', include('frota.urls')),
+    path('reservas/', include('reservas.urls')),
 ]

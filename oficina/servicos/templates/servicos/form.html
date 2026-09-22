@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{% if modo == 'novo' %}Novo Serviço{% else %}Editar Serviço{% endif %}{% endblock %}
+{% block cabecalho %}{% if modo == 'novo' %}Novo Serviço{% else %}Editar Serviço{% endif %}{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'servicos/css/servicos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<form method="post" class="card" id="form-servico" novalidate>
+{% csrf_token %}
+<div class="form-bloco">
+<h3>Identificação</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.nome.id_for_label }}">Nome</label>{{ form.nome }}{% if form.nome.errors %}<span class="erro">{{ form.nome.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.categoria.id_for_label }}">Categoria</label>{{ form.categoria }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Execução e valor</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.duracao_estimada_minutos.id_for_label }}">Duração estimada (minutos)</label>{{ form.duracao_estimada_minutos }}{% if form.duracao_estimada_minutos.errors %}<span class="erro">{{ form.duracao_estimada_minutos.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.preco.id_for_label }}">Preço (R$)</label>{{ form.preco }}{% if form.preco.errors %}<span class="erro">{{ form.preco.errors.0 }}</span>{% endif %}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Outros</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.descricao.id_for_label }}">Descrição</label>{{ form.descricao }}</div>
+<div class="campo campo-checkbox">{{ form.ativo }}<label for="{{ form.ativo.id_for_label }}">Ativo</label></div>
+</div>
+</div>
+<div class="form-acoes">
+<button type="submit" class="btn btn-primario">Salvar</button>
+<a href="{% url 'servicos:lista' %}" class="btn btn-secundario">Cancelar</a>
+<button type="reset" class="btn btn-secundario">Limpar</button>
+</div>
+</form>
+<script src="{% static 'servicos/js/servicos.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Veículos{% endblock %}
+{% block cabecalho %}Veículos{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'veiculos/css/veiculos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por placa, modelo ou cliente..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'veiculos:cadastrar' %}" class="btn btn-primario">+ Novo Veículo</a>
+</div>
+<div class="card tabela-wrapper">
+{% if veiculos %}
+<table class="tabela-dados">
+<thead><tr><th>Placa</th><th>Marca/Modelo</th><th>Cliente</th><th>Ano</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for veiculo in veiculos %}
+<tr>
+<td>{{ veiculo.placa }}</td>
+<td>{{ veiculo.marca }} {{ veiculo.modelo }}</td>
+<td>{{ veiculo.cliente.nome_completo }}</td>
+<td>{{ veiculo.ano_modelo|default:"-" }}</td>
+<td>{% if veiculo.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'veiculos:detalhe' veiculo.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'veiculos:editar' veiculo.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if veiculos.has_previous %}<a href="?page={{ veiculos.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ veiculos.number }} / {{ veiculos.paginator.num_pages }}</span>
+{% if veiculos.has_next %}<a href="?page={{ veiculos.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhum veículo encontrado.</p>
+{% endif %}
+</div>
+<script src="{% static 'veiculos/js/veiculos.js' %}"></script>
+{% endblock %}

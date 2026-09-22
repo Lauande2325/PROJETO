@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{% if modo == 'novo' %}Nova Peça{% else %}Editar Peça{% endif %}{% endblock %}
+{% block cabecalho %}{% if modo == 'novo' %}Nova Peça{% else %}Editar Peça{% endif %}{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'pecas/css/pecas.css' %}">
+{% endblock %}
+{% block conteudo %}
+<form method="post" class="card" id="form-peca" novalidate>
+{% csrf_token %}
+<div class="form-bloco">
+<h3>Identificação</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.codigo.id_for_label }}">Código</label>{{ form.codigo }}{% if form.codigo.errors %}<span class="erro">{{ form.codigo.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.nome.id_for_label }}">Nome</label>{{ form.nome }}</div>
+<div class="campo"><label for="{{ form.fabricante.id_for_label }}">Fabricante</label>{{ form.fabricante }}</div>
+<div class="campo"><label for="{{ form.categoria.id_for_label }}">Categoria</label>{{ form.categoria }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Estoque</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.unidade.id_for_label }}">Unidade</label>{{ form.unidade }}</div>
+<div class="campo"><label for="{{ form.estoque_atual.id_for_label }}">Estoque atual</label>{{ form.estoque_atual }}{% if form.estoque_atual.errors %}<span class="erro">{{ form.estoque_atual.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.estoque_minimo.id_for_label }}">Estoque mínimo</label>{{ form.estoque_minimo }}{% if form.estoque_minimo.errors %}<span class="erro">{{ form.estoque_minimo.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.localizacao.id_for_label }}">Localização</label>{{ form.localizacao }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Valores</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.preco_custo.id_for_label }}">Preço de custo (R$)</label>{{ form.preco_custo }}{% if form.preco_custo.errors %}<span class="erro">{{ form.preco_custo.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.preco_venda.id_for_label }}">Preço de venda (R$)</label>{{ form.preco_venda }}{% if form.preco_venda.errors %}<span class="erro">{{ form.preco_venda.errors.0 }}</span>{% endif %}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Fornecedor</h3>
+<div class="form-grid"><div class="campo"><label for="{{ form.fornecedor.id_for_label }}">Fornecedor</label>{{ form.fornecedor }}</div></div>
+</div>
+<div class="form-bloco">
+<h3>Outros</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.descricao.id_for_label }}">Descrição</label>{{ form.descricao }}</div>
+<div class="campo campo-checkbox">{{ form.ativo }}<label for="{{ form.ativo.id_for_label }}">Ativo</label></div>
+</div>
+</div>
+<div class="form-acoes">
+<button type="submit" class="btn btn-primario">Salvar</button>
+<a href="{% url 'pecas:lista' %}" class="btn btn-secundario">Cancelar</a>
+<button type="reset" class="btn btn-secundario">Limpar</button>
+</div>
+</form>
+<script src="{% static 'pecas/js/pecas.js' %}"></script>
+{% endblock %}

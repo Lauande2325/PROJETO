@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Serviços{% endblock %}
+{% block cabecalho %}Serviços{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'servicos/css/servicos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por nome ou categoria..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'servicos:cadastrar' %}" class="btn btn-primario">+ Novo Serviço</a>
+</div>
+<div class="card tabela-wrapper">
+{% if servicos %}
+<table class="tabela-dados">
+<thead><tr><th>Nome</th><th>Categoria</th><th>Duração</th><th>Preço</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for servico in servicos %}
+<tr>
+<td>{{ servico.nome }}</td>
+<td>{{ servico.get_categoria_display }}</td>
+<td>{{ servico.duracao_formatada }}</td>
+<td>R$ {{ servico.preco }}</td>
+<td>{% if servico.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'servicos:detalhe' servico.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'servicos:editar' servico.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if servicos.has_previous %}<a href="?page={{ servicos.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ servicos.number }} / {{ servicos.paginator.num_pages }}</span>
+{% if servicos.has_next %}<a href="?page={{ servicos.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhum serviço encontrado.</p>
+{% endif %}
+</div>
+<script src="{% static 'servicos/js/servicos.js' %}"></script>
+{% endblock %}

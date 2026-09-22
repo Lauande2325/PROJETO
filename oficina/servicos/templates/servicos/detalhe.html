@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{{ servico.nome }}{% endblock %}
+{% block cabecalho %}Detalhe do Serviço{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'servicos/css/servicos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Nome</div><div class="valor">{{ servico.nome }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Categoria</div><div class="valor">{{ servico.get_categoria_display }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Duração estimada</div><div class="valor">{{ servico.duracao_formatada }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Preço</div><div class="valor">R$ {{ servico.preco }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if servico.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</div></div>
+</div>
+{% if servico.descricao %}
+<div class="form-bloco" style="margin-top: 20px;">
+<h3>Descrição</h3>
+<p>{{ servico.descricao }}</p>
+</div>
+{% endif %}
+<div class="form-acoes">
+<a href="{% url 'servicos:editar' servico.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'servicos:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if servico.ativo %}
+<form method="post" action="{% url 'servicos:desativar' servico.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo btn-desativar">Desativar</button>
+</form>
+{% endif %}
+</div>
+</div>
+<script src="{% static 'servicos/js/servicos.js' %}"></script>
+{% endblock %}

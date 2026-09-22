@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{{ cliente.nome_completo }}{% endblock %}
+{% block cabecalho %}Detalhe do Cliente{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Nome</div><div class="valor">{{ cliente.nome_completo }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Tipo</div><div class="valor">{{ cliente.get_tipo_pessoa_display }}</div></div>
+<div class="detalhe-item"><div class="rotulo">CPF/CNPJ</div><div class="valor">{{ cliente.cpf_cnpj|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Telefone</div><div class="valor">{{ cliente.telefone|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">WhatsApp</div><div class="valor">{{ cliente.whatsapp|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">E-mail</div><div class="valor">{{ cliente.email|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Endereço</div><div class="valor">{{ cliente.endereco_completo|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if cliente.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</div></div>
+</div>
+{% if cliente.observacoes %}
+<div class="form-bloco" style="margin-top: 20px;">
+<h3>Observações</h3>
+<p>{{ cliente.observacoes }}</p>
+</div>
+{% endif %}
+<div class="form-acoes">
+<a href="{% url 'clientes:editar' cliente.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'clientes:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if cliente.ativo %}
+<form method="post" action="{% url 'clientes:desativar' cliente.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo btn-desativar">Desativar</button>
+</form>
+{% endif %}
+</div>
+</div>
+<script src="{% static 'clientes/js/clientes.js' %}"></script>
+{% endblock %}

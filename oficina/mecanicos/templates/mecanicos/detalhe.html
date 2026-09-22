@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{{ mecanico.nome }}{% endblock %}
+{% block cabecalho %}Detalhe do Mecânico{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'mecanicos/css/mecanicos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Nome</div><div class="valor">{{ mecanico.nome }}</div></div>
+<div class="detalhe-item"><div class="rotulo">CPF</div><div class="valor">{{ mecanico.cpf|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Telefone</div><div class="valor">{{ mecanico.telefone|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">WhatsApp</div><div class="valor">{{ mecanico.whatsapp|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">E-mail</div><div class="valor">{{ mecanico.email|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Especialidade</div><div class="valor">{{ mecanico.especialidade|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Registro profissional</div><div class="valor">{{ mecanico.registro_profissional|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Data de admissão</div><div class="valor">{{ mecanico.data_admissao|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if mecanico.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</div></div>
+</div>
+{% if mecanico.observacoes %}
+<div class="form-bloco" style="margin-top: 20px;">
+<h3>Observações</h3>
+<p>{{ mecanico.observacoes }}</p>
+</div>
+{% endif %}
+<div class="form-acoes">
+<a href="{% url 'mecanicos:editar' mecanico.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'mecanicos:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if mecanico.ativo %}
+<form method="post" action="{% url 'mecanicos:desativar' mecanico.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo btn-desativar">Desativar</button>
+</form>
+{% endif %}
+</div>
+</div>
+<script src="{% static 'mecanicos/js/mecanicos.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{{ veiculo.placa }}{% endblock %}
+{% block cabecalho %}Detalhe do Veículo{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'veiculos/css/veiculos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="card">
+<div class="detalhe-grid">
+<div class="detalhe-item"><div class="rotulo">Placa</div><div class="valor">{{ veiculo.placa }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Cliente</div><div class="valor"><a href="{% url 'clientes:detalhe' veiculo.cliente.pk %}">{{ veiculo.cliente.nome_completo }}</a></div></div>
+<div class="detalhe-item"><div class="rotulo">Marca / Modelo</div><div class="valor">{{ veiculo.marca }} {{ veiculo.modelo }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Cor</div><div class="valor">{{ veiculo.cor|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Ano fabricação / modelo</div><div class="valor">{{ veiculo.ano_fabricacao|default:"-" }} / {{ veiculo.ano_modelo|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Chassi</div><div class="valor">{{ veiculo.chassi|default:"-" }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Combustível</div><div class="valor">{{ veiculo.get_combustivel_display }}</div></div>
+<div class="detalhe-item"><div class="rotulo">Quilometragem</div><div class="valor">{{ veiculo.quilometragem }} km</div></div>
+<div class="detalhe-item"><div class="rotulo">Status</div><div class="valor">{% if veiculo.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</div></div>
+</div>
+{% if veiculo.observacoes %}
+<div class="form-bloco" style="margin-top: 20px;">
+<h3>Observações</h3>
+<p>{{ veiculo.observacoes }}</p>
+</div>
+{% endif %}
+<div class="form-acoes">
+<a href="{% url 'veiculos:editar' veiculo.pk %}" class="btn btn-primario">Editar</a>
+<a href="{% url 'veiculos:lista' %}" class="btn btn-secundario">Voltar</a>
+{% if veiculo.ativo %}
+<form method="post" action="{% url 'veiculos:desativar' veiculo.pk %}" class="form-desativar">
+{% csrf_token %}
+<button type="submit" class="btn btn-perigo btn-desativar">Desativar</button>
+</form>
+{% endif %}
+</div>
+</div>
+<script src="{% static 'veiculos/js/veiculos.js' %}"></script>
+{% endblock %}

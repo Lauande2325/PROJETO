@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Mecânicos{% endblock %}
+{% block cabecalho %}Mecânicos{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'mecanicos/css/mecanicos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por nome ou especialidade..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'mecanicos:cadastrar' %}" class="btn btn-primario">+ Novo Mecânico</a>
+</div>
+<div class="card tabela-wrapper">
+{% if mecanicos %}
+<table class="tabela-dados">
+<thead><tr><th>Nome</th><th>Especialidade</th><th>Telefone</th><th>Admissão</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for mecanico in mecanicos %}
+<tr>
+<td>{{ mecanico.nome }}</td>
+<td>{{ mecanico.especialidade|default:"-" }}</td>
+<td>{{ mecanico.telefone|default:"-" }}</td>
+<td>{{ mecanico.data_admissao|default:"-" }}</td>
+<td>{% if mecanico.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'mecanicos:detalhe' mecanico.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'mecanicos:editar' mecanico.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if mecanicos.has_previous %}<a href="?page={{ mecanicos.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ mecanicos.number }} / {{ mecanicos.paginator.num_pages }}</span>
+{% if mecanicos.has_next %}<a href="?page={{ mecanicos.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhum mecânico encontrado.</p>
+{% endif %}
+</div>
+<script src="{% static 'mecanicos/js/mecanicos.js' %}"></script>
+{% endblock %}

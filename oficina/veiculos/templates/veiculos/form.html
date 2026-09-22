@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}{% if modo == 'novo' %}Novo Veículo{% else %}Editar Veículo{% endif %}{% endblock %}
+{% block cabecalho %}{% if modo == 'novo' %}Novo Veículo{% else %}Editar Veículo{% endif %}{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'veiculos/css/veiculos.css' %}">
+{% endblock %}
+{% block conteudo %}
+<form method="post" class="card" id="form-veiculo" novalidate>
+{% csrf_token %}
+<div class="form-bloco">
+<h3>Cliente</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.cliente.id_for_label }}">Cliente</label>{{ form.cliente }}{% if form.cliente.errors %}<span class="erro">{{ form.cliente.errors.0 }}</span>{% endif %}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Identificação</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.placa.id_for_label }}">Placa</label>{{ form.placa }}{% if form.placa.errors %}<span class="erro">{{ form.placa.errors.0 }}</span>{% endif %}</div>
+<div class="campo"><label for="{{ form.marca.id_for_label }}">Marca</label>{{ form.marca }}</div>
+<div class="campo"><label for="{{ form.modelo.id_for_label }}">Modelo</label>{{ form.modelo }}</div>
+<div class="campo"><label for="{{ form.cor.id_for_label }}">Cor</label>{{ form.cor }}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Detalhes técnicos</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.ano_fabricacao.id_for_label }}">Ano de fabricação</label>{{ form.ano_fabricacao }}</div>
+<div class="campo"><label for="{{ form.ano_modelo.id_for_label }}">Ano do modelo</label>{{ form.ano_modelo }}</div>
+<div class="campo"><label for="{{ form.chassi.id_for_label }}">Chassi</label>{{ form.chassi }}</div>
+<div class="campo"><label for="{{ form.combustivel.id_for_label }}">Combustível</label>{{ form.combustivel }}</div>
+<div class="campo"><label for="{{ form.quilometragem.id_for_label }}">Quilometragem</label>{{ form.quilometragem }}{% if form.quilometragem.errors %}<span class="erro">{{ form.quilometragem.errors.0 }}</span>{% endif %}</div>
+</div>
+</div>
+<div class="form-bloco">
+<h3>Outros</h3>
+<div class="form-grid">
+<div class="campo"><label for="{{ form.observacoes.id_for_label }}">Observações</label>{{ form.observacoes }}</div>
+<div class="campo campo-checkbox">{{ form.ativo }}<label for="{{ form.ativo.id_for_label }}">Ativo</label></div>
+</div>
+</div>
+<div class="form-acoes">
+<button type="submit" class="btn btn-primario">Salvar</button>
+<a href="{% url 'veiculos:lista' %}" class="btn btn-secundario">Cancelar</a>
+<button type="reset" class="btn btn-secundario">Limpar</button>
+</div>
+</form>
+<script src="{% static 'veiculos/js/veiculos.js' %}"></script>
+{% endblock %}

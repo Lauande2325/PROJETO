@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Peças{% endblock %}
+{% block cabecalho %}Peças{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'pecas/css/pecas.css' %}">
+{% endblock %}
+{% block conteudo %}
+<div class="pagina-cabecalho">
+<form class="busca-form" method="get">
+<input type="text" name="q" placeholder="Buscar por código, nome, fabricante..." value="{{ termo }}">
+<button type="submit" class="btn btn-secundario">Buscar</button>
+</form>
+<a href="{% url 'pecas:cadastrar' %}" class="btn btn-primario">+ Nova Peça</a>
+</div>
+<div class="card tabela-wrapper">
+{% if pecas %}
+<table class="tabela-dados">
+<thead><tr><th>Código</th><th>Nome</th><th>Fabricante</th><th>Estoque</th><th>Preço de venda</th><th>Status</th><th>Ações</th></tr></thead>
+<tbody>
+{% for peca in pecas %}
+<tr>
+<td>{{ peca.codigo }}</td>
+<td>{{ peca.nome }}</td>
+<td>{{ peca.fabricante|default:"-" }}</td>
+<td>{{ peca.estoque_atual }}{% if peca.estoque_baixo %} <span class="status-badge status-inativo">baixo</span>{% endif %}</td>
+<td>R$ {{ peca.preco_venda }}</td>
+<td>{% if peca.ativo %}<span class="status-badge status-ativo">Ativo</span>{% else %}<span class="status-badge status-inativo">Inativo</span>{% endif %}</td>
+<td class="acoes-tabela">
+<a href="{% url 'pecas:detalhe' peca.pk %}" class="btn btn-secundario">Ver</a>
+<a href="{% url 'pecas:editar' peca.pk %}" class="btn btn-secundario">Editar</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="paginacao">
+{% if pecas.has_previous %}<a href="?page={{ pecas.previous_page_number }}&q={{ termo }}">Anterior</a>{% endif %}
+<span class="ativo">{{ pecas.number }} / {{ pecas.paginator.num_pages }}</span>
+{% if pecas.has_next %}<a href="?page={{ pecas.next_page_number }}&q={{ termo }}">Próxima</a>{% endif %}
+</div>
+{% else %}
+<p class="vazio">Nenhuma peça encontrada.</p>
+{% endif %}
+</div>
+<script src="{% static 'pecas/js/pecas.js' %}"></script>
+{% endblock %}
